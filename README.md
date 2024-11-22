@@ -1,6 +1,7 @@
 # Dodge the Creeps
  Godot starter project. This is a simple game; the goal is to move the player character around to dodge the spawning enemy mobs around the screen. Touch an enemy mob and it's game over. Your score goes up the longer you survive.
- ![screenshot from game](screenshot.png)
+ 
+ ![screenshot from game](screenshot.png | width=100)
 
  Adapted from the Godot documentation [getting started tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html). 
 
