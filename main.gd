@@ -15,6 +15,13 @@ func _process(delta: float) -> void:
 	pass
 
 
+func _input(event):
+	if Input.is_action_just_pressed("pause_game"):
+		get_viewport().set_input_as_handled()
+		$PauseScreen.show()
+		get_tree().paused = true
+
+
 func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()

@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnuiyaxq82avn"]
+
+[ext_resource type="FontFile" uid="uid://xh4pu8ugf484" path="res://fonts/Xolonium-Regular.ttf" id="1_77kqo"]
+[ext_resource type="Script" path="res://pause_screen.gd" id="1_uagpa"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_k7csd"]
+action = &"pause_game"
+
+[sub_resource type="Shortcut" id="Shortcut_l5v77"]
+events = [SubResource("InputEventAction_k7csd")]
+
+[node name="PauseScreen" type="CanvasLayer"]
+process_mode = 2
+visible = false
+script = ExtResource("1_uagpa")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.686507, 0.1413, 0.764806, 0.784314)
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -300.0
+offset_right = 100.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_77kqo")
+theme_override_font_sizes/font_size = 32
+shortcut = SubResource("Shortcut_l5v77")
+text = "Resume"
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -120.0
+offset_right = 240.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_77kqo")
+theme_override_font_sizes/font_size = 64
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
