@@ -13,7 +13,7 @@
  ```
  python3 -m http.server
 ```
- This will start serving the project directory to a port, usually by default localhost:8000.
+ This will start serving the project directory to a local port, usually by default port 8000.
  
  Then, in your web browser, navigate to your port (ie. http://localhost:8000). Finally, select the file 'Dodge the creeps.html' to open the game.
 
