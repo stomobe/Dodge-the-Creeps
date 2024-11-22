@@ -28,6 +28,12 @@ func _process(delta: float) -> void:
 
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
+		
+		# Rotate sprite in the direction of velocity
+		var angleOfMovement = velocity.angle() + PI / 2
+		$AnimatedSprite2D.rotation = angleOfMovement
+		$CollisionShape2D.rotation = angleOfMovement
+		
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
@@ -38,7 +44,7 @@ func _process(delta: float) -> void:
 		$AnimatedSprite2D.flip_h = velocity.x < 0
 	elif velocity.y != 0:
 		$AnimatedSprite2D.animation = "up"
-		$AnimatedSprite2D.flip_v = velocity.y > 0
+		#$AnimatedSprite2D.flip_v = velocity.y > 0
 
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
