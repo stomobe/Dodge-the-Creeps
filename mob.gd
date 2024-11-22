@@ -5,6 +5,11 @@ extends RigidBody2D
 func _ready() -> void:
 	var mob_types = $AnimatedSprite2D.sprite_frames.get_animation_names()
 	$AnimatedSprite2D.play(mob_types[randi() % mob_types.size()])
+	
+	# Randomize mob size
+	var scaleFactor = Vector2.ONE * randf_range(0.5, 2.00)
+	$AnimatedSprite2D.scale *= scaleFactor
+	$CollisionShape2D.scale *= scaleFactor
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

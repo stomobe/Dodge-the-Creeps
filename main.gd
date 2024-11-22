@@ -19,10 +19,17 @@ func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
+	$DeathBackground.set_color(Color("black", 0.8))
+	$Music.stop()
+	$DeathSound.play()
 
 
 func new_game():
 	get_tree().call_group("mobs", "queue_free")
+	
+	$DeathBackground.set_color(Color("black", 0.0))
+	
+	$Music.play()
 	
 	score = 0
 	$Player.start($StartPosition.position)
@@ -61,8 +68,12 @@ func _on_mob_timer_timeout() -> void:
 	mob.rotation = direction
 	
 	# Choose the velocity for the mob
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+	var scaleFactor = randf_range(50.0, 275.0)
+	var velocity = Vector2(scaleFactor, 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
+	
+	# Change animation speed based on velocity
+	mob.get_node("AnimatedSprite2D").set_speed_scale(scaleFactor * 0.01)
 	
 	# Spawn the mob by adding it to the Main scene
 	add_child(mob)
