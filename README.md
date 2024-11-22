@@ -3,7 +3,9 @@
 
  Adapted from the Godot documentation [getting started tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html). 
 
- To run the game, serve the file 'Dodge the Creeps.html' to your browser.
+ ## How to Play
+
+ Clone this repository to your local files. To run the game, serve the file 'Dodge the Creeps.html' to your browser.
 
  A simple way to do so is to navigate to the project root directory, start a Linux terminal, and run the following:
  ```
