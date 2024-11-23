@@ -21,4 +21,5 @@
  | Action | Input |
 | --- | --- |
 | Movement | WASD keys or arrow keys |
-| Start | click the start button or press Space key |
+| Start | click the "Start" button or press Enter key |
+| Pause | Esc key or Space key |
