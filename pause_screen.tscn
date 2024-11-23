@@ -22,7 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.686507, 0.1413, 0.764806, 0.784314)
 
-[node name="Button" type="Button" parent="."]
+[node name="ResumeButton" type="Button" parent="."]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -46,9 +46,8 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -240.0
-offset_top = -120.0
+offset_top = -240.0
 offset_right = 240.0
-offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -59,4 +58,52 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="EasyButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -15.5
+offset_right = -39.0
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+toggle_mode = true
+text = "Easy"
+
+[node name="NormalButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -15.5
+offset_right = 46.5
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+toggle_mode = true
+text = "Normal"
+
+[node name="HardButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 53.0
+offset_top = -15.5
+offset_right = 133.0
+offset_bottom = 20.5
+grow_horizontal = 2
+grow_vertical = 2
+toggle_mode = true
+text = "Hard"
+
+[connection signal="pressed" from="ResumeButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="EasyButton" to="." method="_on_easy_button_pressed"]
+[connection signal="pressed" from="NormalButton" to="." method="_on_normal_button_pressed"]
+[connection signal="pressed" from="HardButton" to="." method="_on_hard_button_pressed"]

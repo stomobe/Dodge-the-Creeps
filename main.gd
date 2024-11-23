@@ -3,19 +3,38 @@ extends Node
 
 @export var mob_scene: PackedScene
 var score
+var difficultyLevel
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	set_difficulty(1)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
-func _input(event):
+func set_difficulty(levelNumber):
+	difficultyLevel = levelNumber
+	
+	if difficultyLevel == 0:
+		$PauseScreen/EasyButton.set_pressed_no_signal(true)
+		$PauseScreen/NormalButton.set_pressed_no_signal(false)
+		$PauseScreen/HardButton.set_pressed_no_signal(false)
+	elif difficultyLevel == 1:
+		$PauseScreen/EasyButton.set_pressed_no_signal(false)
+		$PauseScreen/NormalButton.set_pressed_no_signal(true)
+		$PauseScreen/HardButton.set_pressed_no_signal(false)
+	else:
+		$PauseScreen/EasyButton.set_pressed_no_signal(false)
+		$PauseScreen/NormalButton.set_pressed_no_signal(false)
+		$PauseScreen/HardButton.set_pressed_no_signal(true)
+	print(difficultyLevel)
+
+
+func _input(_event):
 	if Input.is_action_just_pressed("pause_game"):
 		get_viewport().set_input_as_handled()
 		$PauseScreen.show()
@@ -57,6 +76,30 @@ func _on_start_timer_timeout() -> void:
 
 
 func _on_mob_timer_timeout() -> void:
+	
+	var scale_factor
+	var spawn_chance
+	
+	if difficultyLevel == 0:
+		scale_factor = randf_range(80.0, 100.0)
+		# Have higher spawn chance early game, then slow down
+		if score < 2:
+			spawn_chance = 1.00
+		else:
+			spawn_chance = 0.33
+			
+	elif difficultyLevel == 1:
+		scale_factor = randf_range(70.0, 275.0)
+		spawn_chance = 0.67
+		
+	else:
+		scale_factor = randf_range(50.0, 500.0)
+		spawn_chance = 1.00
+
+	# skip mob creation based on spawn chance
+	if spawn_chance <= randf_range(0.0, 1.00):
+		return
+	
 	# Create a new instance of the Mob scene
 	var mob = mob_scene.instantiate()
 	
@@ -75,12 +118,11 @@ func _on_mob_timer_timeout() -> void:
 	mob.rotation = direction
 	
 	# Choose the velocity for the mob
-	var scaleFactor = randf_range(50.0, 275.0)
-	var velocity = Vector2(scaleFactor, 0.0)
+	var velocity = Vector2(scale_factor, 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
 	
 	# Change animation speed based on velocity
-	mob.get_node("AnimatedSprite2D").set_speed_scale(scaleFactor * 0.01)
+	mob.get_node("AnimatedSprite2D").set_speed_scale(scale_factor * 0.01)
 	
 	# Spawn the mob by adding it to the Main scene
 	add_child(mob)
