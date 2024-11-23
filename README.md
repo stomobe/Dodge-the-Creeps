@@ -23,3 +23,4 @@
 | Movement | WASD keys or arrow keys |
 | Start | click the "Start" button or press Enter key |
 | Pause | Esc key or Space key |
+| Set Difficulty | from Pause screen, toggle "Easy," "Normal," or "Hard" buttons |
