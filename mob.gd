@@ -19,3 +19,8 @@ func _process(_delta: float) -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
+
+
+func _on_despawn_timer_timeout() -> void:
+	# Automatically despawn mob after staying on screen for too long
+	queue_free()
