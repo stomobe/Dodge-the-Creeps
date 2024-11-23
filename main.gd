@@ -31,12 +31,12 @@ func set_difficulty(levelNumber):
 		$PauseScreen/EasyButton.set_pressed_no_signal(false)
 		$PauseScreen/NormalButton.set_pressed_no_signal(false)
 		$PauseScreen/HardButton.set_pressed_no_signal(true)
-	print(difficultyLevel)
 
 
 func _input(_event):
 	if Input.is_action_just_pressed("pause_game"):
 		get_viewport().set_input_as_handled()
+		$HUD/ButtonSound.play()
 		$PauseScreen.show()
 		get_tree().paused = true
 

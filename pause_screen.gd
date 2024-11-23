@@ -22,23 +22,25 @@ func resume_game():
 func _input(_event):
 	if Input.is_action_just_pressed("pause_game"):
 		get_viewport().set_input_as_handled()
+		$ButtonSound.play()
 		resume_game()
 
 
 func _on_button_pressed() -> void:
+	$ButtonSound.play()
 	resume_game()
 
 
 func _on_easy_button_pressed() -> void:
-	print("Clicked easy")
+	$SwitchSound.play()
 	difficultyLevelSelected.emit(0)
 
 
 func _on_normal_button_pressed() -> void:
-	print("Clicked normal")
+	$SwitchSound.play()
 	difficultyLevelSelected.emit(1)
 
 
 func _on_hard_button_pressed() -> void:
-	print("Clicked hard")
+	$SwitchSound.play()
 	difficultyLevelSelected.emit(2)

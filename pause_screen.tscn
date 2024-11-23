@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnuiyaxq82avn"]
+[gd_scene load_steps=7 format=3 uid="uid://cnuiyaxq82avn"]
 
 [ext_resource type="FontFile" uid="uid://xh4pu8ugf484" path="res://fonts/Xolonium-Regular.ttf" id="1_77kqo"]
 [ext_resource type="Script" path="res://pause_screen.gd" id="1_uagpa"]
+[ext_resource type="AudioStream" uid="uid://dkcaxukhr23jf" path="res://art/select_004.wav" id="3_8idq7"]
+[ext_resource type="AudioStream" uid="uid://d1uks13lf3y5c" path="res://art/switch_002.wav" id="4_xhefn"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_k7csd"]
 action = &"pause_game"
@@ -102,6 +104,14 @@ grow_horizontal = 2
 grow_vertical = 2
 toggle_mode = true
 text = "Hard"
+
+[node name="ButtonSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_8idq7")
+pitch_scale = 0.5
+
+[node name="SwitchSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_xhefn")
+pitch_scale = 2.0
 
 [connection signal="pressed" from="ResumeButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="EasyButton" to="." method="_on_easy_button_pressed"]

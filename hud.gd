@@ -38,6 +38,7 @@ func _process(_delta: float) -> void:
 
 func _on_start_button_pressed() -> void:
 	$StartButton.hide()
+	$ButtonSound.play()
 	start_game.emit()
 
 
