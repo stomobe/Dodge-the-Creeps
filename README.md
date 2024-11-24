@@ -8,7 +8,7 @@
  ## How to Play
 Play directly from GitHub Pages:
 
-[Launch Game](https://stomobe.github.io/Dodge-the-Creeps/Dodge-the-Creeps.html)
+[Launch Game](https://stomobe.github.io/Dodge-the-Creeps/Dodge%20the%20Creeps.html)
 
 
  Or, clone this repository to your local files. To run the game, serve the file 'Dodge the Creeps.html' to your browser.
