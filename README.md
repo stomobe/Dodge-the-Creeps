@@ -17,7 +17,7 @@
  
  Then, in your web browser, navigate to your port (ie. http://localhost:8000). Finally, select the file 'Dodge the creeps.html' to open the game.
 
- ## Controls:
+ ## Controls
  | Action | Input |
 | --- | --- |
 | Movement | WASD keys or arrow keys |
