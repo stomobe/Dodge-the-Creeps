@@ -1,5 +1,5 @@
 # Dodge the Creeps
- Godot starter project. This is a simple game; the goal is to move the player character around to dodge the spawning enemy mobs around the screen. Touch an enemy mob and it's game over. Your score goes up the longer you survive.
+ Godot starter project. This is a simple game; the goal is to move the player character around, collect glowing orbs, and dodge the spawning enemy mobs. Glowing orbs gain score points. Touch an enemy mob and it's game over. Your score also passively goes up the longer you survive.
  
  ![screenshot from game](screenshot.png)
 
