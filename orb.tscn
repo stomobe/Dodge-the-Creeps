@@ -1,12 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://cy66nqk5v0wt"]
+[gd_scene load_steps=10 format=3 uid="uid://cy66nqk5v0wt"]
 
 [ext_resource type="Script" path="res://orb.gd" id="1_mw0xx"]
 [ext_resource type="Texture2D" uid="uid://dvlmxugs4fras" path="res://art/orb_0.png" id="1_xarih"]
+[ext_resource type="Texture2D" uid="uid://deyv24dngerqw" path="res://art/orb_collected_0.png" id="2_ey678"]
 [ext_resource type="Texture2D" uid="uid://b5i85uitfjr7t" path="res://art/orb_1.png" id="3_ifmrc"]
 [ext_resource type="AudioStream" uid="uid://dyxgupgmwkh8d" path="res://art/orb_drop.wav" id="3_rcbwd"]
+[ext_resource type="Texture2D" uid="uid://dnysbwekv3roi" path="res://art/orb_collected_1.png" id="3_y3wbx"]
+[ext_resource type="FontFile" uid="uid://xh4pu8ugf484" path="res://fonts/Xolonium-Regular.ttf" id="7_oxyhs"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_opggw"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ey678")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_y3wbx")
+}],
+"loop": false,
+"name": &"collected",
+"speed": 6.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_xarih")
@@ -16,7 +30,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 1.0
+"speed": 2.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0pi21"]
@@ -30,7 +44,7 @@ script = ExtResource("1_mw0xx")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_opggw")
-frame_progress = 0.0561174
+animation = &"collected"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(-2.55417, 2.55177)
@@ -44,5 +58,15 @@ pitch_scale = 0.75
 [node name="PickupSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_rcbwd")
 pitch_scale = 1.5
+
+[node name="PlusScore" type="Label" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("7_oxyhs")
+theme_override_font_sizes/font_size = 16
+text = "+20"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="finished" from="PickupSound" to="." method="_on_pickup_sound_finished"]
