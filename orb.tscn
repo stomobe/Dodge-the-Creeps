@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy66nqk5v0wt"]
+[gd_scene load_steps=7 format=3 uid="uid://cy66nqk5v0wt"]
 
 [ext_resource type="Script" path="res://orb.gd" id="1_mw0xx"]
 [ext_resource type="Texture2D" uid="uid://dvlmxugs4fras" path="res://art/orb_0.png" id="1_xarih"]
+[ext_resource type="Texture2D" uid="uid://b5i85uitfjr7t" path="res://art/orb_1.png" id="3_ifmrc"]
 [ext_resource type="AudioStream" uid="uid://dyxgupgmwkh8d" path="res://art/orb_drop.wav" id="3_rcbwd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_opggw"]
@@ -9,13 +10,17 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_xarih")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ifmrc")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 1.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0pi21"]
+radius = 3.13214
 
 [node name="Orb" type="RigidBody2D" groups=["orbs"]]
 collision_mask = 0
@@ -23,7 +28,9 @@ gravity_scale = 0.0
 script = ExtResource("1_mw0xx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_opggw")
+frame_progress = 0.0561174
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(-2.55417, 2.55177)

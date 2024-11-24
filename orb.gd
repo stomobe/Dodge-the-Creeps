@@ -10,6 +10,7 @@ var orb_score_value = 20
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$SpawnSound.play()
+	$AnimatedSprite2D.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
