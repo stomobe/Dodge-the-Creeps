@@ -5,11 +5,6 @@ extends RigidBody2D
 func _ready() -> void:
 	var mob_types = $AnimatedSprite2D.sprite_frames.get_animation_names()
 	$AnimatedSprite2D.play(mob_types[randi() % mob_types.size()])
-	
-	# Randomize mob size
-	var scaleFactor = Vector2.ONE * randf_range(0.5, 2.00)
-	$AnimatedSprite2D.scale *= scaleFactor
-	$CollisionShape2D.scale *= scaleFactor
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,3 +19,9 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _on_despawn_timer_timeout() -> void:
 	# Automatically despawn mob after staying on screen for too long
 	queue_free()
+
+
+func resize(scale: float) -> void:
+	var scaleVector = Vector2(scale, scale)
+	$AnimatedSprite2D.scale *= scaleVector
+	$CollisionShape2D.scale *= scaleVector

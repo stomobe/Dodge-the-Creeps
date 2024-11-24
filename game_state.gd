@@ -2,6 +2,7 @@ extends Node
 
 var score = 0
 var player_is_dead = false
+var can_spawn_boss = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

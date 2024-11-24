@@ -56,6 +56,7 @@ func new_game():
 	get_tree().call_group("orbs", "queue_free")
 	
 	GameState.player_is_dead = false
+	GameState.can_spawn_boss = true
 	
 	$DeathBackground.set_color(Color("black", 0.0))
 	
@@ -81,32 +82,40 @@ func _on_start_timer_timeout() -> void:
 
 
 func _on_mob_timer_timeout() -> void:
+	# Mob spawn routine
 	
-	var scale_factor
 	var spawn_chance
+	var speed_scale
+	var size_scale
+	var will_spawn_boss = true if (GameState.can_spawn_boss && GameState.score > 100) else false
+	
+	# Set parameters based on difficulty level
 	
 	if difficultyLevel == 0:
-		scale_factor = randf_range(80.0, 100.0)
-		# Have higher spawn chance early game, then slow down
-		if GameState.score < 2:
-			spawn_chance = 1.00
-		else:
-			spawn_chance = 0.33
-			
-	elif difficultyLevel == 1:
-		scale_factor = randf_range(70.0, 275.0)
-		spawn_chance = 0.67
+		# Populate screen at beginning of game, then slow down spawn rate
+		spawn_chance = 1.0 if GameState.score < 2 else 0.33
 		
+		speed_scale = 50.0 if will_spawn_boss else randf_range(80.0, 100.0)
+		
+		size_scale = 6.0 if will_spawn_boss else randf_range(0.5, 1.5)
+	
+	elif difficultyLevel == 1:
+		spawn_chance = 0.67
+		speed_scale = 50.0 if will_spawn_boss else randf_range(70.0, 275.0)
+		size_scale = 8.0 if will_spawn_boss else randf_range(0.5, 2.0)
+	
 	else:
-		scale_factor = randf_range(50.0, 500.0)
 		spawn_chance = 1.00
-
-	# skip mob creation based on spawn chance
+		speed_scale = 50.0 if will_spawn_boss else randf_range(50.0, 500.0)
+		size_scale = 12.0 if will_spawn_boss else randf_range(0.5, 2.0)
+	
+	
+	# Check if skip mob creation based on spawn chance
 	if spawn_chance <= randf_range(0.0, 1.00):
 		return
-	
 	# Create a new instance of the Mob scene
 	var mob = mob_scene.instantiate()
+	
 	
 	# Choose a random location on Path2D
 	var mob_spawn_location = $MobPath/MobSpawnLocation
@@ -123,14 +132,25 @@ func _on_mob_timer_timeout() -> void:
 	mob.rotation = direction
 	
 	# Choose the velocity for the mob
-	var velocity = Vector2(scale_factor, 0.0)
+	var velocity = Vector2(speed_scale, 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
 	
 	# Change animation speed based on velocity
-	mob.get_node("AnimatedSprite2D").set_speed_scale(scale_factor * 0.01)
+	mob.get_node("AnimatedSprite2D").set_speed_scale(speed_scale * 0.01)
+	
+	# Set size
+	mob.resize(size_scale)
+	
 	
 	# Spawn the mob by adding it to the Main scene
+	if will_spawn_boss:
+		GameState.can_spawn_boss = false
+		$BossSpawnCoolDown.start()
+		$BossSpawnSound.play()
+		print("Boss Cooldown start")
+	
 	mob.add_to_group("enemies")
+	
 	add_child(mob)
 
 
@@ -141,7 +161,7 @@ func _on_orb_timer_timeout() -> void:
 	var orb = orb_scene.instantiate()
 	
 	# Choose random spawn location for orb, staying near center of screen
-	var margin_size = 60
+	var margin_size = 70
 	var min_x = margin_size
 	var max_x = $ColorRect.get_viewport_rect().size.x - margin_size
 	var min_y = margin_size
@@ -163,3 +183,8 @@ func _on_player_ate_orb(body) -> void:
 	$Player.can_touch_orb = true
 	
 	$OrbTimer.start() # spawn next orb
+
+
+func _on_boss_spawn_cool_down_timeout() -> void:
+	GameState.can_spawn_boss = true
+	print("Boss Cooldown ended")
