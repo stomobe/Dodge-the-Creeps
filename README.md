@@ -6,8 +6,11 @@
  Adapted from the Godot documentation [getting started tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html). 
 
  ## How to Play
+Play directly from GitHub Pages:
+[Launch Game](/Dodge-the-Creeps.html)
 
- Clone this repository to your local files. To run the game, serve the file 'Dodge the Creeps.html' to your browser.
+
+ Or, clone this repository to your local files. To run the game, serve the file 'Dodge the Creeps.html' to your browser.
 
  A simple way to do so is to navigate to the project root directory, start a Linux terminal, and run the following:
  ```
@@ -24,6 +27,3 @@
 | Start | click the "Start" button or press Enter key |
 | Pause | Esc key or Space key |
 | Set Difficulty | from Pause screen, toggle "Easy," "Normal," or "Hard" buttons |
-
-
-[Launch Game](Dodge the Creeps.html)
