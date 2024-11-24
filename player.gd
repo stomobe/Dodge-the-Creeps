@@ -2,10 +2,12 @@ extends Area2D
 
 
 signal hit
+signal ate_orb(body)
 
 
 @export var speed = 400 # How fast the player will move (pixels/sec)
 var screen_size # Size of the game window
+var can_touch_orb = true
 
 
 # Called when the node enters the scene tree for the first time.
@@ -50,11 +52,19 @@ func _process(delta: float) -> void:
 	position = position.clamp(Vector2.ZERO, screen_size)
 
 
-func _on_body_entered(_body: Node2D) -> void:
-	hide() # Player disappears after being hit
-	hit.emit()
-	# Must be deferred as we can't change physics properties on a physics callback
-	$CollisionShape2D.set_deferred("disabled", true)
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
+		print("hit mob")
+	
+		hide() # Player disappears after being hit
+		hit.emit()
+		# Must be deferred as we can't change physics properties on a physics callback
+		$CollisionShape2D.set_deferred("disabled", true)
+
+	elif body.is_in_group("powerups"):
+		if can_touch_orb:
+			print("ate orb")
+			ate_orb.emit(body)
 
 
 func start(pos):

@@ -2,8 +2,9 @@ extends Node
 
 
 @export var mob_scene: PackedScene
-var score
+@export var orb_scene: PackedScene
 var difficultyLevel
+var orb_score_value = 10
 
 
 # Called when the node enters the scene tree for the first time.
@@ -57,22 +58,23 @@ func new_game():
 	
 	$Music.play()
 	
-	score = 0
+	GameState.score = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	
-	$HUD.update_score(score)
+	$HUD.update_score(GameState.score)
 	$HUD.show_message("Get Ready")
 
 
 func _on_score_timer_timeout() -> void:
-	score += 1
-	$HUD.update_score(score)
+	GameState.score += 1
+	$HUD.update_score(GameState.score)
 
 
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+	$OrbTimer.start()
 
 
 func _on_mob_timer_timeout() -> void:
@@ -83,7 +85,7 @@ func _on_mob_timer_timeout() -> void:
 	if difficultyLevel == 0:
 		scale_factor = randf_range(80.0, 100.0)
 		# Have higher spawn chance early game, then slow down
-		if score < 2:
+		if GameState.score < 2:
 			spawn_chance = 1.00
 		else:
 			spawn_chance = 0.33
@@ -125,4 +127,24 @@ func _on_mob_timer_timeout() -> void:
 	mob.get_node("AnimatedSprite2D").set_speed_scale(scale_factor * 0.01)
 	
 	# Spawn the mob by adding it to the Main scene
+	mob.add_to_group("enemies")
 	add_child(mob)
+
+
+func _on_orb_timer_timeout() -> void:
+	var orb = orb_scene.instantiate()
+	
+	orb.position = Vector2(100.0, 100.0)
+	
+	# Spawn orb by adding it to Main scene
+	orb.add_to_group("powerups")
+	add_child(orb)
+
+
+func _on_player_ate_orb(body) -> void:
+	$Player.can_touch_orb = false
+	body.set_deferred("disabled", true)
+	body.queue_free()
+	GameState.score += orb_score_value
+	await get_tree().create_timer(0.1).timeout
+	$Player.can_touch_orb = true

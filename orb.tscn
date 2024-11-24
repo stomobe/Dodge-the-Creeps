@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy66nqk5v0wt"]
+
+[ext_resource type="Script" path="res://orb.gd" id="1_mw0xx"]
+[ext_resource type="Texture2D" uid="uid://dvlmxugs4fras" path="res://art/orb_0.png" id="1_xarih"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opggw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xarih")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0pi21"]
+
+[node name="Orb" type="RigidBody2D"]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_mw0xx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_opggw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(-2.55417, 2.55177)
+shape = SubResource("CircleShape2D_0pi21")
+
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
