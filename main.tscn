@@ -74,6 +74,7 @@ stream = ExtResource("6_7rh7k")
 [node name="PauseScreen" parent="." instance=ExtResource("6_m838t")]
 
 [node name="OrbTimer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
 
 [connection signal="ate_orb" from="Player" to="." method="_on_player_ate_orb"]

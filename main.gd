@@ -4,7 +4,7 @@ extends Node
 @export var mob_scene: PackedScene
 @export var orb_scene: PackedScene
 var difficultyLevel
-var orb_score_value = 10
+var orb_score_value = 20
 
 
 # Called when the node enters the scene tree for the first time.
@@ -134,7 +134,13 @@ func _on_mob_timer_timeout() -> void:
 func _on_orb_timer_timeout() -> void:
 	var orb = orb_scene.instantiate()
 	
-	orb.position = Vector2(100.0, 100.0)
+	# Choose random spawn location for orb, staying near center of screen
+	var margin_size = 60
+	var min_x = margin_size
+	var max_x = $ColorRect.get_viewport_rect().size.x - margin_size
+	var min_y = margin_size
+	var max_y = $ColorRect.get_viewport_rect().size.y - margin_size
+	orb.position = Vector2(randi_range(min_x, max_x), randi_range(min_y, max_y))
 	
 	# Spawn orb by adding it to Main scene
 	orb.add_to_group("powerups")
@@ -148,3 +154,4 @@ func _on_player_ate_orb(body) -> void:
 	GameState.score += orb_score_value
 	await get_tree().create_timer(0.1).timeout
 	$Player.can_touch_orb = true
+	$OrbTimer.start() # spawn next orb
