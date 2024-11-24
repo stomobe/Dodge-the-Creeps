@@ -4,15 +4,23 @@ extends RigidBody2D
 signal collected
 
 
+var orb_score_value = 20
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	$SpawnSound.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+	
+	
+func orb_collected_sequence():
+	$PickupSound.play()
+	GameState.score += orb_score_value
 
 
-func _on_tree_exited() -> void:
-	print("orb is exiting")
+func _on_pickup_sound_finished() -> void:
+	queue_free()

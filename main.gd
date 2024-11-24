@@ -4,7 +4,6 @@ extends Node
 @export var mob_scene: PackedScene
 @export var orb_scene: PackedScene
 var difficultyLevel
-var orb_score_value = 20
 
 
 # Called when the node enters the scene tree for the first time.
@@ -43,6 +42,7 @@ func _input(_event):
 
 
 func game_over() -> void:
+	GameState.player_is_dead = true
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
@@ -53,6 +53,9 @@ func game_over() -> void:
 
 func new_game():
 	get_tree().call_group("mobs", "queue_free")
+	get_tree().call_group("orbs", "queue_free")
+	
+	GameState.player_is_dead = false
 	
 	$DeathBackground.set_color(Color("black", 0.0))
 	
@@ -132,6 +135,9 @@ func _on_mob_timer_timeout() -> void:
 
 
 func _on_orb_timer_timeout() -> void:
+	if GameState.player_is_dead:
+		return
+	
 	var orb = orb_scene.instantiate()
 	
 	# Choose random spawn location for orb, staying near center of screen
@@ -150,8 +156,10 @@ func _on_orb_timer_timeout() -> void:
 func _on_player_ate_orb(body) -> void:
 	$Player.can_touch_orb = false
 	body.set_deferred("disabled", true)
-	body.queue_free()
-	GameState.score += orb_score_value
+	
+	body.orb_collected_sequence()
+	
 	await get_tree().create_timer(0.1).timeout
 	$Player.can_touch_orb = true
+	
 	$OrbTimer.start() # spawn next orb
