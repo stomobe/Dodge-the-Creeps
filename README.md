@@ -26,4 +26,4 @@
 | Set Difficulty | from Pause screen, toggle "Easy," "Normal," or "Hard" buttons |
 
 
-[Launch Game](https://stomobe.github.io/Dodge-the-Creeps/Dodge the Creeps.html)
+[Launch Game](Dodge the Creeps.html)
