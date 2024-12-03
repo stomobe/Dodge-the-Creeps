@@ -113,7 +113,7 @@ func _on_mob_timer_timeout() -> void:
 	# Check if skip mob creation based on spawn chance
 	if spawn_chance <= randf_range(0.0, 1.00):
 		return
-	# Create a new instance of the Mob scene
+	# Else create a new instance of the Mob scene
 	var mob = mob_scene.instantiate()
 	
 	
@@ -130,6 +130,9 @@ func _on_mob_timer_timeout() -> void:
 		var y_diff = $Player.position.y - mob_spawn_location.position.y
 		var vector_to_player = Vector2(x_diff, y_diff)
 		direction = vector_to_player.angle()
+		
+		$BossIndicator.position = mob_spawn_location.position
+		$BossIndicator.rotation = direction
 		
 		GameState.can_spawn_boss = false
 		$BossSpawnCoolDown.start()
@@ -160,7 +163,6 @@ func _on_mob_timer_timeout() -> void:
 	
 	# Spawn the mob by adding it to the Main scene
 	mob.add_to_group("enemies")
-	
 	add_child(mob)
 
 

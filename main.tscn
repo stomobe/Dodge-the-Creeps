@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dpfcybhbdlkis"]
+[gd_scene load_steps=15 format=4 uid="uid://dpfcybhbdlkis"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_bnmoj"]
 [ext_resource type="PackedScene" uid="uid://cd4uacqa4pyay" path="res://player.tscn" id="1_onfpn"]
@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://tt5xra2n43od" path="res://art/gameover.wav" id="6_7rh7k"]
 [ext_resource type="PackedScene" uid="uid://cnuiyaxq82avn" path="res://pause_screen.tscn" id="6_m838t"]
 [ext_resource type="AudioStream" uid="uid://1aa6fbeqmbs5" path="res://art/scratch_001.wav" id="8_km5kt"]
+[ext_resource type="Texture2D" uid="uid://b53fjqv8an30v" path="res://art/bossIndicator_0.png" id="9_trbh5"]
+[ext_resource type="Texture2D" uid="uid://cf34eib54b816" path="res://art/bossIndicator_1.png" id="10_n3uku"]
 
 [sub_resource type="Curve2D" id="Curve2D_ln6bn"]
 _data = {
@@ -23,6 +25,20 @@ sampling_rate = 44100.0
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_pqtdj"]
 packet_sequence = SubResource("OggPacketSequence_4jw3p")
 loop = true
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fgwos"]
+animations = [{
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("9_trbh5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_n3uku")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [node name="Main" type="Node" groups=["enemies", "powerups"]]
 script = ExtResource("1_bnmoj")
@@ -85,6 +101,13 @@ one_shot = true
 [node name="BossSpawnSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_km5kt")
 pitch_scale = 0.1
+
+[node name="BossIndicator" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.392157)
+scale = Vector2(2, 0.2)
+sprite_frames = SubResource("SpriteFrames_fgwos")
+frame = 1
+frame_progress = 0.405749
 
 [connection signal="ate_orb" from="Player" to="." method="_on_player_ate_orb"]
 [connection signal="hit" from="Player" to="." method="game_over"]
