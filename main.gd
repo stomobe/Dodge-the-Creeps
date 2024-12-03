@@ -49,6 +49,7 @@ func game_over() -> void:
 	$DeathBackground.set_color(Color("black", 0.8))
 	$Music.stop()
 	$DeathSound.play()
+	set_boss_indicator_off()
 
 
 func new_game():
@@ -81,6 +82,11 @@ func _on_start_timer_timeout() -> void:
 	$OrbTimer.start()
 
 
+func set_boss_indicator_off() -> void:
+	$BossIndicator.stop()
+	$BossIndicator.visible = false
+
+
 func _on_mob_timer_timeout() -> void:
 	# Mob spawn routine
 	
@@ -95,19 +101,19 @@ func _on_mob_timer_timeout() -> void:
 		# Populate screen at beginning of game, then slow down spawn rate
 		spawn_chance = 1.0 if GameState.score < 2 else 0.33
 		
-		speed_scale = 50.0 if will_spawn_boss else randf_range(80.0, 100.0)
+		speed_scale = 90.0 if will_spawn_boss else randf_range(80.0, 100.0)
 		
 		size_scale = 6.0 if will_spawn_boss else randf_range(0.5, 1.5)
 	
 	elif difficultyLevel == 1:
 		spawn_chance = 0.67
-		speed_scale = 50.0 if will_spawn_boss else randf_range(70.0, 275.0)
-		size_scale = 8.0 if will_spawn_boss else randf_range(0.5, 2.0)
+		speed_scale = 120.0 if will_spawn_boss else randf_range(70.0, 275.0)
+		size_scale = 6.0 if will_spawn_boss else randf_range(0.5, 2.0)
 	
 	else:
 		spawn_chance = 1.00
-		speed_scale = 50.0 if will_spawn_boss else randf_range(50.0, 500.0)
-		size_scale = 12.0 if will_spawn_boss else randf_range(0.5, 2.0)
+		speed_scale = 160.0 if will_spawn_boss else randf_range(50.0, 500.0)
+		size_scale = 8.0 if will_spawn_boss else randf_range(0.5, 2.0)
 	
 	
 	# Check if skip mob creation based on spawn chance
@@ -122,20 +128,29 @@ func _on_mob_timer_timeout() -> void:
 	# Choose a random location on Path2D
 	var mob_spawn_location = $MobPath/MobSpawnLocation
 	mob_spawn_location.progress_ratio = randf()
+	var spawn_position = mob_spawn_location.position
 	var direction
 	
 	if will_spawn_boss:
 		# Set mob's direction pointing toward player
-		var x_diff = $Player.position.x - mob_spawn_location.position.x
-		var y_diff = $Player.position.y - mob_spawn_location.position.y
+		var x_diff = $Player.position.x - spawn_position.x
+		var y_diff = $Player.position.y - spawn_position.y
 		var vector_to_player = Vector2(x_diff, y_diff)
 		direction = vector_to_player.angle()
 		
-		$BossIndicator.position = mob_spawn_location.position
+		$BossIndicator.position = spawn_position
 		$BossIndicator.rotation = direction
+		$BossIndicator.play()
 		
 		GameState.can_spawn_boss = false
 		$BossSpawnCoolDown.start()
+		$BossWarningSound.play()
+		
+		# Give player time to react before boss spawns
+		$BossIndicator.visible = true
+		$BossIndicatorDecay.start()
+		
+		await get_tree().create_timer(2.0).timeout
 		$BossSpawnSound.play()
 	else:
 		# Set the mob's direction perpendicular to the path direction
@@ -146,9 +161,9 @@ func _on_mob_timer_timeout() -> void:
 	
 	
 	mob.rotation = direction
-		
+	
 	# Set the mob's position to a random location
-	mob.position = mob_spawn_location.position
+	mob.position = spawn_position
 	
 	# Choose the velocity for the mob
 	var velocity = Vector2(speed_scale, 0.0)
@@ -200,3 +215,7 @@ func _on_player_ate_orb(body) -> void:
 func _on_boss_spawn_cool_down_timeout() -> void:
 	GameState.can_spawn_boss = true
 	print("Boss Cooldown ended")
+
+
+func _on_boss_indicator_decay_timeout() -> void:
+	set_boss_indicator_off()

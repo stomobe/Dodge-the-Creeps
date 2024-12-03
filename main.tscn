@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dpfcybhbdlkis"]
+[gd_scene load_steps=16 format=4 uid="uid://dpfcybhbdlkis"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_bnmoj"]
 [ext_resource type="PackedScene" uid="uid://cd4uacqa4pyay" path="res://player.tscn" id="1_onfpn"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://1aa6fbeqmbs5" path="res://art/scratch_001.wav" id="8_km5kt"]
 [ext_resource type="Texture2D" uid="uid://b53fjqv8an30v" path="res://art/bossIndicator_0.png" id="9_trbh5"]
 [ext_resource type="Texture2D" uid="uid://cf34eib54b816" path="res://art/bossIndicator_1.png" id="10_n3uku"]
+[ext_resource type="AudioStream" uid="uid://cmwa76c72iqoy" path="res://art/emergency_alarm.wav" id="11_sr6wi"]
 
 [sub_resource type="Curve2D" id="Curve2D_ln6bn"]
 _data = {
@@ -29,10 +30,10 @@ loop = true
 [sub_resource type="SpriteFrames" id="SpriteFrames_fgwos"]
 animations = [{
 "frames": [{
-"duration": 0.5,
+"duration": 0.4,
 "texture": ExtResource("9_trbh5")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": ExtResource("10_n3uku")
 }],
 "loop": true,
@@ -95,7 +96,7 @@ wait_time = 3.0
 one_shot = true
 
 [node name="BossSpawnCoolDown" type="Timer" parent="."]
-wait_time = 60.0
+wait_time = 32.0
 one_shot = true
 
 [node name="BossSpawnSound" type="AudioStreamPlayer2D" parent="."]
@@ -103,11 +104,19 @@ stream = ExtResource("8_km5kt")
 pitch_scale = 0.1
 
 [node name="BossIndicator" type="AnimatedSprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.392157)
+visible = false
+modulate = Color(1, 1, 1, 0.27451)
 scale = Vector2(2, 0.2)
 sprite_frames = SubResource("SpriteFrames_fgwos")
 frame = 1
 frame_progress = 0.405749
+
+[node name="BossIndicatorDecay" type="Timer" parent="."]
+wait_time = 6.0
+
+[node name="BossWarningSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_sr6wi")
+pitch_scale = 0.77
 
 [connection signal="ate_orb" from="Player" to="." method="_on_player_ate_orb"]
 [connection signal="hit" from="Player" to="." method="game_over"]
@@ -118,3 +127,4 @@ frame_progress = 0.405749
 [connection signal="difficultyLevelSelected" from="PauseScreen" to="." method="set_difficulty"]
 [connection signal="timeout" from="OrbTimer" to="." method="_on_orb_timer_timeout"]
 [connection signal="timeout" from="BossSpawnCoolDown" to="." method="_on_boss_spawn_cool_down_timeout"]
+[connection signal="timeout" from="BossIndicatorDecay" to="." method="_on_boss_indicator_decay_timeout"]
