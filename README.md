@@ -7,7 +7,7 @@
  Adapted from the Godot documentation [getting started tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html).  
 
 
- ## How to Play  
+ # How to Play  
  
 Play directly from GitHub Pages:  
 
@@ -25,7 +25,7 @@ Play directly from GitHub Pages:
  Then, in your web browser, navigate to your port (ie. http://localhost:8000). Finally, select the file 'Dodge the creeps.html' to open the game.  
 
 
- ## Controls  
+ # Controls  
  
  | Action | Input |
 | --- | --- |
