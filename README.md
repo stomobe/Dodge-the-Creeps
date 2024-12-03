@@ -5,11 +5,10 @@
  ![screenshot from game](screenshot.png)
 
  Adapted from the Godot documentation [getting started tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html).  
+  
 
+# How to Play
 
- How to Play  
- ---------------
- 
 Play directly from GitHub Pages:  
 
 [Launch Game](https://stomobe.github.io/Dodge-the-Creeps/Dodge%20the%20Creeps.html)  
@@ -24,10 +23,9 @@ Play directly from GitHub Pages:
  This will start serving the project directory to a local port, usually by default port 8000.  
  
  Then, in your web browser, navigate to your port (ie. http://localhost:8000). Finally, select the file 'Dodge the creeps.html' to open the game.  
+  
 
-
- Controls  
- ---------------
+# Controls
  
  | Action | Input |
 | --- | --- |
