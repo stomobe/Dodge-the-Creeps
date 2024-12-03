@@ -8,7 +8,7 @@ var difficultyLevel
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	set_difficulty(1)
+	set_difficulty(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -117,19 +117,35 @@ func _on_mob_timer_timeout() -> void:
 	var mob = mob_scene.instantiate()
 	
 	
+	# Generate spawn parameters
+	
 	# Choose a random location on Path2D
 	var mob_spawn_location = $MobPath/MobSpawnLocation
 	mob_spawn_location.progress_ratio = randf()
+	var direction
 	
-	# Set the mob's direction perpendicular to the path direction
-	var direction = mob_spawn_location.rotation + PI / 2
+	if will_spawn_boss:
+		# Set mob's direction pointing toward player
+		var x_diff = $Player.position.x - mob_spawn_location.position.x
+		var y_diff = $Player.position.y - mob_spawn_location.position.y
+		var vector_to_player = Vector2(x_diff, y_diff)
+		direction = vector_to_player.angle()
+		
+		GameState.can_spawn_boss = false
+		$BossSpawnCoolDown.start()
+		$BossSpawnSound.play()
+	else:
+		# Set the mob's direction perpendicular to the path direction
+		direction = mob_spawn_location.rotation + PI / 2
+		
+		# Add some randomness to the direction
+		direction += randf_range(-PI / 4, PI / 4)
 	
+	
+	mob.rotation = direction
+		
 	# Set the mob's position to a random location
 	mob.position = mob_spawn_location.position
-	
-	# Add some randomness to the direction
-	direction += randf_range(-PI / 4, PI / 4)
-	mob.rotation = direction
 	
 	# Choose the velocity for the mob
 	var velocity = Vector2(speed_scale, 0.0)
@@ -143,12 +159,6 @@ func _on_mob_timer_timeout() -> void:
 	
 	
 	# Spawn the mob by adding it to the Main scene
-	if will_spawn_boss:
-		GameState.can_spawn_boss = false
-		$BossSpawnCoolDown.start()
-		$BossSpawnSound.play()
-		print("Boss Cooldown start")
-	
 	mob.add_to_group("enemies")
 	
 	add_child(mob)
