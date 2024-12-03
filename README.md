@@ -1,11 +1,14 @@
 # Dodge the Creeps
+
  Godot starter project. This is a simple game; the goal is to move the player character around, collect glowing orbs, and dodge the spawning enemy mobs. Each orb you collect and each second you survive increases your score. Touch an enemy mob and it's game over. Try to survive for as long as you can!
  
  ![screenshot from game](screenshot.png)
 
  Adapted from the Godot documentation [getting started tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html). 
 
+
  ## How to Play
+ 
 Play directly from GitHub Pages:
 
 [Launch Game](https://stomobe.github.io/Dodge-the-Creeps/Dodge%20the%20Creeps.html)
@@ -21,7 +24,9 @@ Play directly from GitHub Pages:
  
  Then, in your web browser, navigate to your port (ie. http://localhost:8000). Finally, select the file 'Dodge the creeps.html' to open the game.
 
+
  ## Controls
+ 
  | Action | Input |
 | --- | --- |
 | Movement | WASD keys or arrow keys |
